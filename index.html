@@ -1,43 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>去重换行工具（支持空格/逗号/换行）</title>
+  <meta charset="UTF-8" />
+  <title>分组去重换行工具</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
-    textarea { width: 100%; height: 150px; margin-bottom: 10px; padding: 10px; font-size: 14px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+    textarea { width: 100%; height: 180px; margin-bottom: 10px; padding: 10px; font-size: 14px; }
     button { padding: 10px 20px; font-size: 16px; margin-right: 10px; cursor: pointer; }
-    #output { background-color: #fff; padding: 10px; white-space: pre-wrap; border: 1px solid #ccc; }
+    #output { background: #fff; padding: 10px; white-space: pre-wrap; border: 1px solid #ccc; min-height: 150px; }
   </style>
 </head>
 <body>
 
-  <h2>🔁 去重换行工具</h2>
-  <p>支持输入用：<strong>逗号 , 空格 ，或换行</strong> 分隔的内容</p>
-
-  <textarea id="input" placeholder="在此粘贴你的数据..."></textarea>
-  <br>
-  <button onclick="deduplicate()">去重并换行</button>
+  <h2>🛠 分组去重换行工具</h2>
+  <p>请按行输入多组数据，每组内以逗号、空格分隔，自动去重后每组换行显示</p>
+  <textarea id="input" placeholder="示例：&#10;A,A,B,C&#10;1,2,2,3&#10;X Y Z X"></textarea>
+  <br />
+  <button onclick="groupDeduplicate()">去重并换行</button>
   <button onclick="copyOutput()">复制结果</button>
 
-  <h3>📋 输出结果：</h3>
+  <h3>输出结果：</h3>
   <div id="output"></div>
 
-  <script>
-    function deduplicate() {
-      const inputText = document.getElementById('input').value;
-      const items = inputText.split(/[\s,\n]+/).map(item => item.trim()).filter(item => item);
-      const unique = [...new Set(items)].sort();
-      document.getElementById('output').textContent = unique.join('\n');
+<script>
+  function groupDeduplicate() {
+    const input = document.getElementById('input').value.trim();
+    if (!input) {
+      document.getElementById('output').textContent = '';
+      return;
     }
+    const lines = input.split('\n');
 
-    function copyOutput() {
-      const output = document.getElementById('output').textContent;
-      navigator.clipboard.writeText(output).then(() => {
-        alert("已复制到剪贴板！");
-      });
-    }
-  </script>
+    // 处理每一组
+    const results = lines.map(line => {
+      // 用逗号、空格分割
+      let items = line.split(/[,\s]+/).map(i => i.trim()).filter(i => i);
+      // 去重、排序
+      let unique = [...new Set(items)].sort();
+      return unique.join('\n');
+    });
+
+    // 组与组之间空一行隔开
+    document.getElementById('output').textContent = results.join('\n\n');
+  }
+
+  function copyOutput() {
+    const output = document.getElementById('output').textContent;
+    navigator.clipboard.writeText(output).then(() => {
+      alert('已复制到剪贴板！');
+    });
+  }
+</script>
 
 </body>
+</html>
+
 </html>
