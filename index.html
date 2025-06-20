@@ -2,38 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>去重换行工具</title>
+  <title>去重换行工具（支持空格/逗号/换行）</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f5f5f5; }
+    body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
     textarea { width: 100%; height: 150px; margin-bottom: 10px; padding: 10px; font-size: 14px; }
-    button { padding: 10px 20px; font-size: 16px; margin-bottom: 10px; cursor: pointer; }
+    button { padding: 10px 20px; font-size: 16px; margin-right: 10px; cursor: pointer; }
     #output { background-color: #fff; padding: 10px; white-space: pre-wrap; border: 1px solid #ccc; }
   </style>
 </head>
 <body>
 
-  <h2>🔁 去重并换行工具</h2>
-  <p>请输入以逗号或换行分隔的数据：</p>
+  <h2>🔁 去重换行工具</h2>
+  <p>支持输入用：**逗号, 空格, 或换行** 分隔的内容</p>
+
   <textarea id="input" placeholder="在此粘贴你的数据..."></textarea>
   <br>
   <button onclick="deduplicate()">去重并换行</button>
   <button onclick="copyOutput()">复制结果</button>
 
-  <h3>📋 处理结果：</h3>
+  <h3>📋 输出结果：</h3>
   <div id="output"></div>
 
   <script>
     function deduplicate() {
       const inputText = document.getElementById('input').value;
-      const items = inputText.split(/[\n,]+/).map(item => item.trim()).filter(item => item);
+      const items = inputText.split(/[\\s,\\n]+/).map(item => item.trim()).filter(item => item);
       const unique = [...new Set(items)].sort();
-      document.getElementById('output').textContent = unique.join('\n');
+      document.getElementById('output').textContent = unique.join('\\n');
     }
 
     function copyOutput() {
       const output = document.getElementById('output').textContent;
       navigator.clipboard.writeText(output).then(() => {
-        alert("已复制结果到剪贴板！");
+        alert("已复制到剪贴板！");
       });
     }
   </script>
