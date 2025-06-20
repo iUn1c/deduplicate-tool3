@@ -18,6 +18,7 @@
   <br />
   <button onclick="groupDeduplicate()">去重并换行</button>
   <button onclick="copyOutput()">复制结果</button>
+  <button onclick="clearInput()">清空输入框</button>
 
   <h3>输出结果：</h3>
   <div id="output"></div>
@@ -50,9 +51,16 @@
       alert('已复制到剪贴板！');
     });
   }
+
+  function clearInput() {
+    document.getElementById('input').value = '';
+    document.getElementById('output').textContent = '';
+  }
 </script>
 
 </body>
+</html>
+
 </html>
 
 </html>
