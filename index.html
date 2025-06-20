@@ -13,7 +13,7 @@
 <body>
 
   <h2>🔁 去重换行工具</h2>
-  <p>支持输入用：**逗号, 空格, 或换行** 分隔的内容</p>
+  <p>支持输入用：<strong>逗号 , 空格 ，或换行</strong> 分隔的内容</p>
 
   <textarea id="input" placeholder="在此粘贴你的数据..."></textarea>
   <br>
@@ -26,9 +26,9 @@
   <script>
     function deduplicate() {
       const inputText = document.getElementById('input').value;
-      const items = inputText.split(/[\\s,\\n]+/).map(item => item.trim()).filter(item => item);
+      const items = inputText.split(/[\s,\n]+/).map(item => item.trim()).filter(item => item);
       const unique = [...new Set(items)].sort();
-      document.getElementById('output').textContent = unique.join('\\n');
+      document.getElementById('output').textContent = unique.join('\n');
     }
 
     function copyOutput() {
