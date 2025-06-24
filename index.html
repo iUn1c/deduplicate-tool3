@@ -13,7 +13,7 @@
 <body>
 
   <h2>🛠 分组去重换行工具</h2>
-  <p>请按行输入多组数据，每组内以逗号、空格分隔，自动去重后每组换行显示</p>
+  <p>每行是一组，组内用逗号或空格分隔。去重并逐行输出。</p>
   <textarea id="input" placeholder="示例：&#10;A,A,B,C&#10;1,2,2,3&#10;X Y Z X"></textarea>
   <br />
   <button onclick="groupDeduplicate()">去重并换行</button>
@@ -31,18 +31,13 @@
       return;
     }
     const lines = input.split('\n');
-
-    // 处理每一组
     const results = lines.map(line => {
-      // 用逗号、空格分割
       let items = line.split(/[,\s]+/).map(i => i.trim()).filter(i => i);
-      // 去重、排序
       let unique = [...new Set(items)].sort();
       return unique.join('\n');
     });
-
-    // 组与组之间空一行隔开
-    document.getElementById('output').textContent = results.join('\n\n');
+    // 每组之间不再多加空行，直接拼接
+    document.getElementById('output').textContent = results.join('\n');
   }
 
   function copyOutput() {
@@ -59,8 +54,4 @@
 </script>
 
 </body>
-</html>
-
-</html>
-
 </html>
