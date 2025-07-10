@@ -2,54 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>分组去重换行工具</title>
+  <title>多功能去重与格式转换工具</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
-    textarea { width: 100%; height: 180px; margin-bottom: 10px; padding: 10px; font-size: 14px; }
-    button { padding: 10px 20px; font-size: 16px; margin-right: 10px; cursor: pointer; }
-    #output { background: #fff; padding: 10px; white-space: pre-wrap; border: 1px solid #ccc; min-height: 150px; }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; line-height: 1.6; }
+    textarea { width: 100%; height: 150px; margin-bottom: 10px; padding: 10px; font-size: 14px; }
+    button { padding: 8px 16px; font-size: 14px; margin-right: 10px; cursor: pointer; }
+    .block { margin-bottom: 40px; }
+    #output1, #output2 { background: #fff; padding: 10px; white-space: pre-wrap; border: 1px solid #ccc; min-height: 100px; }
   </style>
 </head>
 <body>
 
-  <h2>🛠 分组去重换行工具</h2>
-  <p>每行是一组，组内用逗号或空格分隔。去重并逐行输出。</p>
-  <textarea id="input" placeholder="示例：&#10;A,A,B,C&#10;1,2,2,3&#10;X Y Z X"></textarea>
-  <br />
-  <button onclick="groupDeduplicate()">去重并换行</button>
-  <button onclick="copyOutput()">复制结果</button>
-  <button onclick="clearInput()">清空输入框</button>
+  <h1>🛠 多功能去重与格式转换工具</h1>
 
-  <h3>输出结果：</h3>
-  <div id="output"></div>
+  <div class="block">
+    <h2>① 分组去重换行</h2>
+    <p>每行是一组，组内用逗号或空格分隔，去重并逐行输出</p>
+    <textarea id="input1" placeholder="示例：A,A,B,C
+1,2,2,3
+X Y Z X"></textarea><br>
+    <button onclick="groupDeduplicate()">去重换行</button>
+    <button onclick="copyOutput('output1')">复制结果</button>
+    <button onclick="clearInput('input1', 'output1')">清空</button>
+    <div id="output1"></div>
+  </div>
+
+  <div class="block">
+    <h2>② 合并为竖线并去重</h2>
+    <p>将输入中的「逗号 ,」和「换行」统一转换为「|」，并自动去重</p>
+    <textarea id="input2" placeholder="示例：A,B,C
+D
+E,F,A"></textarea><br>
+    <button onclick="convertToPipe()">转换为竖线</button>
+    <button onclick="copyOutput('output2')">复制结果</button>
+    <button onclick="clearInput('input2', 'output2')">清空</button>
+    <div id="output2"></div>
+  </div>
 
 <script>
   function groupDeduplicate() {
-    const input = document.getElementById('input').value.trim();
+    const input = document.getElementById('input1').value.trim();
     if (!input) {
-      document.getElementById('output').textContent = '';
+      document.getElementById('output1').textContent = '';
       return;
     }
     const lines = input.split('\n');
     const results = lines.map(line => {
-      let items = line.split(/[,\s]+/).map(i => i.trim()).filter(i => i);
+      let items = line.split(/[\s,]+/).map(i => i.trim()).filter(i => i);
       let unique = [...new Set(items)].sort();
       return unique.join('\n');
     });
-    // 每组之间不再多加空行，直接拼接
-    document.getElementById('output').textContent = results.join('\n');
+    document.getElementById('output1').textContent = results.join('\n');
   }
 
-  function copyOutput() {
-    const output = document.getElementById('output').textContent;
+  function convertToPipe() {
+    const input = document.getElementById('input2').value;
+    const items = input.split(/[\n,]+/).map(i => i.trim()).filter(i => i);
+    const unique = [...new Set(items)];
+    const result = unique.join('|');
+    document.getElementById('output2').textContent = result;
+  }
+
+  function copyOutput(id) {
+    const output = document.getElementById(id).textContent;
     navigator.clipboard.writeText(output).then(() => {
       alert('已复制到剪贴板！');
     });
   }
 
-  function clearInput() {
-    document.getElementById('input').value = '';
-    document.getElementById('output').textContent = '';
+  function clearInput(inputId, outputId) {
+    document.getElementById(inputId).value = '';
+    document.getElementById(outputId).textContent = '';
   }
 </script>
 
