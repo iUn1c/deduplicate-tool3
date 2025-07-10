@@ -1,4 +1,4 @@
-html_combined_buttons = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -14,7 +14,7 @@ html_combined_buttons = """<!DOCTYPE html>
 
   <h2>🔧 去重换行 & 逗号换行转竖线（带去重）</h2>
   <p>在同一个输入框中使用不同按钮处理数据：</p>
-  <textarea id="input" placeholder="示例：A,A,B,C\\n1,2,2,3\\nX Y Z X"></textarea><br>
+  <textarea id="input" placeholder="示例：A,A,B,C\n1,2,2,3\nX Y Z X"></textarea><br>
   <button onclick="deduplicateByGroup()">分组去重换行</button>
   <button onclick="deduplicateToPipe()">合并为竖线并去重</button>
   <button onclick="copyOutput()">复制结果</button>
@@ -27,18 +27,18 @@ html_combined_buttons = """<!DOCTYPE html>
   function deduplicateByGroup() {
     const input = document.getElementById('input').value.trim();
     if (!input) return document.getElementById('output').textContent = '';
-    const lines = input.split('\\n');
+    const lines = input.split('\n');
     const result = lines.map(line => {
-      let items = line.split(/[\\s,]+/).map(i => i.trim()).filter(i => i);
+      let items = line.split(/[\s,]+/).map(i => i.trim()).filter(i => i);
       let unique = [...new Set(items)].sort();
-      return unique.join('\\n');
-    }).join('\\n');
+      return unique.join('\n');
+    }).join('\n');
     document.getElementById('output').textContent = result;
   }
 
   function deduplicateToPipe() {
     const input = document.getElementById('input').value;
-    const items = input.split(/[\\n,]+/).map(i => i.trim()).filter(i => i);
+    const items = input.split(/[\n,]+/).map(i => i.trim()).filter(i => i);
     const unique = [...new Set(items)];
     document.getElementById('output').textContent = unique.join('|');
   }
